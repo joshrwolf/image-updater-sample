@@ -1,6 +1,4 @@
 # NOTE: This values of this GVK don't actually matter, just needed so flux picks it up
 apiVersion: ko.whatever/v1
 kind: Config
-
-defaultBaseImage: ghcr.io/chainguard-dev/dev-toolbox:20220412 # {"$imagepolicy": "flux-system:dev-toolbox"}
-
+defaultBaseImage: ghcr.io/chainguard-dev/dev-toolbox:20220413 # {"$imagepolicy": "flux-system:dev-toolbox"}
