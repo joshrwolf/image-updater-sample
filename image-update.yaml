@@ -48,6 +48,5 @@ spec:
     push:
       branch: main
   update:
-    path: "./"
     strategy: Setters
 
