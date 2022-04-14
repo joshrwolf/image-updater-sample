@@ -1,0 +1,2 @@
+defaultBaseImage: ghcr.io/chainguard-dev/dev-toolbox:20220412 # {"$imagepolicy": "flux-system:dev-toolbox"}
+

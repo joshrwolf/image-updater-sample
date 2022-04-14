@@ -1,0 +1,65 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: GitRepository
+metadata:
+  name: this
+  namespace: flux-system
+spec:
+  interval: 1m0s
+  url: https://github.com/joshrwolf/image-updater-sample
+  ref:
+    branch: main
+
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImageRepository
+metadata:
+  name: dev-toolbox
+  namespace: flux-system
+spec:
+  image: ghcr.io/chainguard-dev/dev-toolbox
+  interval: 15s
+
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImagePolicy
+metadata:
+  name: dev-toolbox
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: dev-toolbox
+  filterTags:
+    pattern: ^(?P<ts>[0-9]+)$
+    extract: '$ts'
+  policy:
+    numerical:
+      order: asc
+
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImageUpdateAutomation
+metadata:
+  name: dev-toolbox
+  namespace: flux-system
+spec:
+  interval: 1m0s
+  sourceRef:
+    kind: GitRepository
+    name: this
+    namespace: flux-system
+  git:
+    checkout:
+      ref:
+        branch: main
+    commit:
+      author:
+        email: fluxcdbot@users.noreply.github.com
+        name: fluxcdbot
+      messageTemplate: '{{range .Updated.Images}}{{println .}}{{end}}'
+    push:
+      branch: main
+  update:
+    path: "./"
+    strategy: Setters
+
