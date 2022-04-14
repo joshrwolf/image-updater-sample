@@ -1,4 +1,5 @@
 ---
+# This defines an image to reconcile against (similar to crane ls $img)
 apiVersion: image.toolkit.fluxcd.io/v1beta1
 kind: ImageRepository
 metadata:
@@ -9,6 +10,7 @@ spec:
   interval: 15s
 
 ---
+# This defines a policy for defining what "latest" means
 apiVersion: image.toolkit.fluxcd.io/v1beta1
 kind: ImagePolicy
 metadata:
@@ -25,6 +27,7 @@ spec:
       order: asc
 
 ---
+# This is responsible for automating commits when a new image is detected from ImagePolicy
 apiVersion: image.toolkit.fluxcd.io/v1beta1
 kind: ImageUpdateAutomation
 metadata:
@@ -46,7 +49,7 @@ spec:
         name: fluxcdbot
       messageTemplate: '{{range .Updated.Images}}{{println .}}{{end}}'
     push:
-      branch: main
+      branch: image-updater
   update:
     strategy: Setters
 

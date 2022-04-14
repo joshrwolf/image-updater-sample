@@ -1,0 +1,21 @@
+name: Staging Auto-PR
+on:
+  push:
+    branches: ['image-updater']
+
+jobs:
+  pull-request:
+    name: Open PR to main
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      name: checkout
+
+    - uses: repo-sync/pull-request@v2
+      name: pull-request
+      with:
+        destination_branch: "main"
+        pr_title: "Pulling ${{ github.ref }} into main"
+        pr_body: "Image updater auto PR"
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+
