@@ -1,16 +1,4 @@
 ---
-apiVersion: source.toolkit.fluxcd.io/v1beta1
-kind: GitRepository
-metadata:
-  name: this
-  namespace: flux-system
-spec:
-  interval: 1m0s
-  url: https://github.com/joshrwolf/image-updater-sample
-  ref:
-    branch: main
-
----
 apiVersion: image.toolkit.fluxcd.io/v1beta1
 kind: ImageRepository
 metadata:
@@ -46,7 +34,7 @@ spec:
   interval: 1m0s
   sourceRef:
     kind: GitRepository
-    name: this
+    name: flux-system
     namespace: flux-system
   git:
     checkout:
